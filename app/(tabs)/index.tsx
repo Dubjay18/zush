@@ -8,7 +8,7 @@ export default function TabOneScreen() {
     <View className={""} >
       <Text className={"text-white"}>Tab One</Text>
       <View style={styles.separator}  />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <EditScreenInfo path="app/(tabs)/profile.tsx" />
     </View>
   );
 }
