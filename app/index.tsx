@@ -2,6 +2,9 @@ import React from 'react';
 import {Image, ScrollView, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {images} from "@/constants";
+import CustomButton from "@/components/CustomButton";
+import {StatusBar} from "expo-status-bar";
+import {router} from "expo-router";
 function App() {
     return (
    <SafeAreaView className={"bg-primary h-full"}>
@@ -9,7 +12,7 @@ function App() {
            height: "100%"
        }}>
 
-           <View className={"w-full justify-center items-center h-full px-4"}>
+           <View className={"w-full justify-center items-center min h-[85vh] px-4"}>
 <Image source={images.logo} className={"w-32 h-20"} resizeMode={"contain"}/>
                <Image source={images.cards} className={"max-w-[380px] w-full h-[300px]"} resizeMode={"contain"}/>
 
@@ -24,8 +27,10 @@ function App() {
                >
 Where creativitu meets technology. Zush is a platform that allows you to create, share and explore a wide range of content, from music to videos, and much more. Get started today and discover the endless possibilities that await you.
                </Text>
+               <CustomButton title={"Continue with email"} handlePress={()=> router.push("/(auth)/SignIn")} containerStyles={"w-full mt-7"}/>
            </View>
        </ScrollView>
+       <StatusBar style={"light"} backgroundColor={"#161622"}/>
    </SafeAreaView>
     );
 }
