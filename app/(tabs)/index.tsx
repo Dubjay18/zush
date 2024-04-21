@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
+
 import { Text, View } from 'react-native';
 
 export default function TabOneScreen() {
@@ -8,7 +8,7 @@ export default function TabOneScreen() {
     <View className={""} >
       <Text className={"text-white"}>Tab One</Text>
       <View style={styles.separator}  />
-      <EditScreenInfo path="app/(tabs)/profile.tsx" />
+
     </View>
   );
 }
