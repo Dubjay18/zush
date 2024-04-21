@@ -30,7 +30,7 @@ export const CreateUser =async (email:string, password:string, username:string) 
             throw new Error("User not created")
         }
         const avatar = avatars.getInitials(username)
-       await SignIn(email, password)
+       await LogIn(email, password)
        const newUser =  await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.userCollectionId,ID.unique(),{
             accountId:newAccount.$id,
             email,
@@ -46,7 +46,7 @@ return newUser
 }
 
 // Login User
-export const SignIn = async (email:string, password:string) => {
+export const LogIn = async (email:string, password:string) => {
     try{
         const session = await account.createEmailSession(email, password)
         if(!session){
