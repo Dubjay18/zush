@@ -2,16 +2,35 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
+import {View, Text, ScrollView, Dimensions, Alert, Image, KeyboardAvoidingView} from "react-native";
 
 import { images } from "../../constants";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
+import {CreateUser} from "@/lib/Appwrite";
+import {useMutation} from "@tanstack/react-query";
 
 
 const SignUp = () => {
 
+    const mutation = useMutation({
+        mutationFn: (payload: {
+            email: string;
+            password: string;
+            username: string;
+        }) => {
+           return CreateUser(payload.email, payload.password, payload.username);
 
+        },
+        mutationKey: ["create-user"],
+        onSuccess: (data) => {
+            console.log(data)
+            router.replace("/(tabs)");
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    });
     const [isSubmitting, setSubmitting] = useState(false);
     const [form, setForm] = useState({
         username: "",
@@ -24,7 +43,9 @@ const SignUp = () => {
             Alert.alert("Error", "Please fill in all fields");
         }
 
-        setSubmitting(true);
+
+
+        mutation.mutate(form);
         // try {
         //     const result = await createUser(form.email, form.password, form.username);
         //     setUser(result);
@@ -36,13 +57,13 @@ const SignUp = () => {
         // } finally {
         //     setSubmitting(false);
         // }
-        setSubmitting(false);
+
     };
 
     return (
         <SafeAreaView className="bg-primary h-full">
             <ScrollView>
-                <View
+                <KeyboardAvoidingView
                     className="w-full flex justify-center h-full px-4 my-6"
                     style={{
                         minHeight: Dimensions.get("window").height - 100,
@@ -55,7 +76,7 @@ const SignUp = () => {
                     />
 
                     <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
-                        Sign Up to Aora
+                        Sign Up to Zush
                     </Text>
 
                     <FormField
@@ -84,10 +105,10 @@ const SignUp = () => {
                         title="Sign Up"
                         handlePress={submit}
                         containerStyles="mt-7"
-                        isLoading={isSubmitting}
+                        isLoading={mutation?.isPending}
                     />
 
-                    <View className="flex justify-center pt-5 flex-row gap-2">
+                    <KeyboardAvoidingView className="flex justify-center pt-5 flex-row gap-2">
                         <Text className="text-lg text-gray-100 font-pregular">
                             Have an account already?
                         </Text>
@@ -97,8 +118,8 @@ const SignUp = () => {
                         >
                             Login
                         </Link>
-                    </View>
-                </View>
+                    </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
             </ScrollView>
         </SafeAreaView>
     );
