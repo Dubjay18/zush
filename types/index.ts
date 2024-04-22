@@ -3,6 +3,13 @@ export type TVideoItem = {
     video: string;
     thumbnail: string;
     title: string;
+    creator: {
+        $id: string;
+        username: string;
+        avatar: string;
+        email: string;
+    }
+    avatar: string;
 }
 
 export type TVideoItems = Array<TVideoItem>

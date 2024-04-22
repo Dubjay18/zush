@@ -11,29 +11,35 @@ import EmptyState from "@/components/EmptyState";
 import {TVideoItem, TVideoItems} from "@/types";
 import {useQuery} from "@tanstack/react-query";
 import {getAllPosts} from "@/lib/Appwrite";
+import VideoCard from "@/components/VideoCard";
 
 export default function TabOneScreen() {
   const {user}= useGlobalContext()
 const posts = useQuery({
   queryKey: ['posts'],
   queryFn: async ()=>{
-    const response = await getAllPosts()
-    return response
+    return await getAllPosts()
   }
-
-
 })
 
-  console.log(posts)
+
+  // @ts-ignore
   return (
   <SafeAreaView className={"bg-primary min-h-screen"}>
-    <FlatList data={posts?.data as unknown as TVideoItems }
+    <FlatList
+
+        data={posts.data as unknown as TVideoItems }
               keyExtractor={(item) => item?.$id?.toString()}
               renderItem={({item})=>(
-
-                        <Text className={"text-3xl text-white"}>
-                        {item?.$id}
-                        </Text>
+                  <>
+                  {
+                    posts ?
+                        // @ts-ignore
+                   <View className={ item?.$id == posts?.data[posts?.data?.length -1 as any]?.$id ? "pb-10": ""} >
+                     <VideoCard title={item?.title} creator={item?.creator?.username} avatar={item?.creator?.avatar} thumbnail={item?.thumbnail} video={item?.video}/>
+                   </View>: null
+                  }
+                  </>
 
                 )}
               ListHeaderComponent={() => (
