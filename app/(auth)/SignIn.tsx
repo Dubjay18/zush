@@ -6,9 +6,11 @@ import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import {Link, router} from "expo-router";
 import {useMutation} from "@tanstack/react-query";
-import { LogIn} from "@/lib/Appwrite";
+import {getCurrentUser, LogIn} from "@/lib/Appwrite";
+import {useGlobalContext} from "@/context/GlobalProvider";
 
 function SignIn() {
+    const { setUser, setIsLogged } = useGlobalContext();
     const mutation = useMutation({
         mutationFn: (payload: {
             email: string;
@@ -18,8 +20,10 @@ function SignIn() {
 
         },
         mutationKey: ["login-user"],
-        onSuccess: (data) => {
-            console.log(data)
+        onSuccess: async (data) => {
+            const result = await getCurrentUser();
+            setUser(result);
+            setIsLogged(true);
             router.replace("/(tabs)");
         },
         onError: (error) => {

@@ -9,22 +9,24 @@ import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import {CreateUser} from "@/lib/Appwrite";
 import {useMutation} from "@tanstack/react-query";
+import {useGlobalContext} from "@/context/GlobalProvider";
 
 
 const SignUp = () => {
-
+    const { setUser, setIsLogged } = useGlobalContext();
     const mutation = useMutation({
         mutationFn: (payload: {
             email: string;
             password: string;
             username: string;
         }) => {
+
            return CreateUser(payload.email, payload.password, payload.username);
 
         },
         mutationKey: ["create-user"],
         onSuccess: (data) => {
-            console.log(data)
+            setUser(data);
             router.replace("/(tabs)");
         },
         onError: (error) => {
