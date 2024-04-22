@@ -74,3 +74,12 @@ export const getCurrentUser = async () => {
         throw new Error(e)
     }
 }
+
+export const getAllPosts = async () => {
+    try {
+        const posts = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.videoCollectionId)
+        return posts.documents
+    }catch (e:any) {
+        throw new Error(e)
+    }
+}
