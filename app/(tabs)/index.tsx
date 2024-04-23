@@ -10,7 +10,7 @@ import Trending from "@/components/Trending";
 import EmptyState from "@/components/EmptyState";
 import {TVideoItem, TVideoItems} from "@/types";
 import {useQuery} from "@tanstack/react-query";
-import {getAllPosts} from "@/lib/Appwrite";
+import {getAllPosts, getLatestPosts} from "@/lib/Appwrite";
 import VideoCard from "@/components/VideoCard";
 
 export default function TabOneScreen() {
@@ -21,6 +21,13 @@ const posts = useQuery({
     return await getAllPosts()
   }
 })
+
+  const trendingPosts= useQuery({
+    queryKey: ['trendingPosts'],
+    queryFn: async ()=>{
+      return await getLatestPosts()
+    }
+  })
 
 
   // @ts-ignore
@@ -57,7 +64,7 @@ const posts = useQuery({
                       <View className="mt-1.5">
                         <Image
                             source={images.logoSmall}
-                            className="w-9 h-10"
+                            className="w-14 h-16"
                             resizeMode="contain"
                         />
                       </View>
@@ -69,7 +76,7 @@ const posts = useQuery({
                         Latest Videos
                       </Text>
 
-{/*<Trending posts={[]}/>*/}
+<Trending posts={trendingPosts?.data as unknown as TVideoItems ?? []}/>
                     </View>
                   </View>
               )}

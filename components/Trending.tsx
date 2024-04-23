@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import { icons } from "../constants";
-import {TVideoItem} from "@/types";
+import {TVideoItem, TVideoItems} from "@/types";
 
 
 const zoomIn = {
@@ -40,7 +40,7 @@ const TrendingItem = ({ activeItem, item }:{
         <Animatable.View
             className="mr-5"
             animation={activeItem === item.$id ? zoomIn : zoomOut}
-            duration={500}
+            duration={300}
         >
             {play ? (
                 <Video
@@ -81,10 +81,10 @@ const TrendingItem = ({ activeItem, item }:{
 };
 
 const Trending = ({ posts }:{
-    posts: TVideoItem[];
+    posts: TVideoItems;
 
 }) => {
-    const [activeItem, setActiveItem] = useState(posts[0].$id);
+    const [activeItem, setActiveItem] = useState(posts[0]?.$id);
 
     const viewableItemsChanged = ({ viewableItems }:{
         viewableItems: any[];

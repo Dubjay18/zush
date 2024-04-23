@@ -9,7 +9,7 @@ import path from "@/assets/images/path.png";
 // @ts-ignore
 import logo from "@/assets/images/logo.png";
 // @ts-ignore
-import logoSmall from "@/assets/images/logo-small.png";
+import logoSmall from "@/assets/images/logo-small2.png";
 // @ts-ignore
 import empty from "@/assets/images/empty.png";
 

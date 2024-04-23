@@ -83,3 +83,58 @@ export const getAllPosts = async () => {
         throw new Error(e)
     }
 }
+
+export async function getLatestPosts() {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.videoCollectionId,
+            [Query.orderDesc("$createdAt"), Query.limit(7)]
+        );
+
+        return posts.documents;
+    } catch (error:any) {
+        throw new Error(error);
+    }
+}
+
+// Get video posts created by user
+export async function getUserPosts(userId: string) {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.videoCollectionId,
+            [Query.equal("creator", userId)]
+        );
+
+        return posts.documents;
+    } catch (error:any) {
+        throw new Error(error);
+    }
+}
+// Sign Out
+export async function signOut() {
+    try {
+        const session = await account.deleteSession("current");
+
+        return session;
+    } catch (error) {
+        throw new Error(error as any);
+    }
+}
+// Get video posts that matches search query
+export async function searchPosts(query: string) {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.videoCollectionId,
+            [Query.search("title", query)]
+        );
+
+        if (!posts) throw new Error("Something went wrong");
+
+        return posts.documents;
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
