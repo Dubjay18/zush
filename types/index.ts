@@ -13,3 +13,5 @@ export type TVideoItem = {
 }
 
 export type TVideoItems = Array<TVideoItem>
+
+export type TAllowedFileTypes = "video" | "image"

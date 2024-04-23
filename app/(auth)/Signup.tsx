@@ -30,6 +30,7 @@ const SignUp = () => {
             router.replace("/(tabs)");
         },
         onError: (error) => {
+            Alert.alert(error?.message|| "An Error occurred while creating user")
             console.log(error)
         }
     });

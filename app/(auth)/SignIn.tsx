@@ -27,6 +27,7 @@ function SignIn() {
             router.replace("/(tabs)");
         },
         onError: (error) => {
+            Alert.alert(error?.message|| "An Error occurred while logging in")
             console.log(error)
         }
     });

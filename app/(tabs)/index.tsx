@@ -1,4 +1,4 @@
-import {FlatList, Image, StyleSheet} from 'react-native';
+import {FlatList, Image, RefreshControl, StyleSheet} from 'react-native';
 
 
 import { Text, View } from 'react-native';
@@ -29,7 +29,11 @@ const posts = useQuery({
     }
   })
 
+  const onRefresh = async () => {
 
+    await posts?.refetch();
+
+  };
   // @ts-ignore
   return (
   <SafeAreaView className={"bg-primary min-h-screen"}>
@@ -84,6 +88,9 @@ ListEmptyComponent={() => (
     <EmptyState title={"No videos found"} subtitle={"Be the first to upload a video"}/>
 )
     }
+        refreshControl={
+          <RefreshControl refreshing={posts?.isRefetching} onRefresh={onRefresh} />
+        }
               />
   </SafeAreaView>
   );
