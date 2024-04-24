@@ -31,14 +31,25 @@ const Create = () => {
         thumbnail: null,
         prompt: "",
     });
-
+    const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
     const openPicker = async (selectType:TAllowedFileTypes) => {
+        if (status?.status !== 'granted') {
+            await requestPermission();
+        }
+        // const result = await DocumentPicker.getDocumentAsync({
+        //     type:
+        //         selectType === "image"
+        //             ? ["image/png", "image/jpg","image/jpeg"]
+        //             : ["video/mp4", "video/gif"],
+        //
+        // });
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: selectType === 'image' ? ImagePicker.MediaTypeOptions.Images : ImagePicker.MediaTypeOptions.Videos,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
         });
+
         if (!result.canceled) {
 
             if (selectType === "image") {

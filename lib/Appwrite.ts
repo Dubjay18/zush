@@ -146,13 +146,16 @@ export async function uploadFile(file:any, type:any) {
     if (!file) return;
 
 
+    // const { mimeType, ...rest } = file;
+    // const asset = { type: mimeType, ...rest };
     const asset = {
-        name: file.fileName,
+        name: file.fileName ?? `file-${Date.now()}.${file.uri.split(".").pop()}`,
         type: file.mimeType,
-        size:file.fileSize,
+        size:file.fileSize ?? 5000,
         uri: file.uri
     };
-    console.log(asset,"asset")
+
+
 
     try {
         const uploadedFile = await storage.createFile(
@@ -160,7 +163,7 @@ export async function uploadFile(file:any, type:any) {
             ID.unique(),
             asset
         );
-        console.log(uploadedFile,"uploadedFile")
+
         const fileUrl = await getFilePreview(uploadedFile?.$id, type);
         return fileUrl;
     } catch (error:any) {
